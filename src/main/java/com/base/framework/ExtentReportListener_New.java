@@ -1,10 +1,6 @@
 package com.base.framework;
 
 import java.io.IOException;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -21,15 +17,10 @@ import com.aventstack.extentreports.ExtentTest;
 public class ExtentReportListener_New implements ITestListener {
 
     private static final ExtentReports extent = ExtentManager.getExtentReports();
-    private static final String RUN_ID = generateRunId();
+    String RUN_ID = ExtentManager.getRunId();
     
     String extentPath=ExtentManager.getReportPath();
 
-    private static String generateRunId() {
-    	DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")
-    	        .withZone(ZoneId.of("UTC"));
-        return "Run_" + fmt.format(Instant.now());
-    }
 
     @Override
     public void onStart(ITestContext context) {
