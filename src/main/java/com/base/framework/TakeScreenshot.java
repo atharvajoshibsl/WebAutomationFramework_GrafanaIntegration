@@ -13,7 +13,7 @@ public class TakeScreenshot {
 
 	public static String capture(WebDriver driver, String fileName) throws IOException
 	{
-		File folder= new File("D:\\Selenium With Java\\Reports\\screenshots");
+		File folder= new File(System.getProperty("user.dir")+"/Reports/screenshots");
 		if(!folder.exists())
 		{
 			folder.mkdir();

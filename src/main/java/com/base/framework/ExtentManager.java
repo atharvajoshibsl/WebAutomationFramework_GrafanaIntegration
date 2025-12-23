@@ -13,7 +13,7 @@ public class ExtentManager {
     // Create and configure ExtentReports (only once)
     public synchronized static ExtentReports getExtentReports() {
         if (extent == null) {
-            reportPath = "D:\\Selenium With Java\\Reports/ExtentReport.html";
+            reportPath = System.getProperty("user.dir") + "/Reports/ExtentReport.html";
 
             ExtentSparkReporter spark = new ExtentSparkReporter(reportPath);
             spark.config().setReportName("Automation Test Results");
@@ -31,7 +31,7 @@ public class ExtentManager {
     public static String getReportPath()
     {
 //    	proxy python http server
-    	String extentUrl = "http://localhost:8081/ExtentReport.html";    	
+    	String extentUrl = "http://localhost:8081/Reports/ExtentReport.html";    	
     	return extentUrl;
     }
     
