@@ -41,6 +41,13 @@ public class ExtentManager {
         return extent;
     }
     
+    public static void attachScreenshot(String path, String title) {
+        if (getTest() != null && path != null) {
+            getTest().addScreenCaptureFromPath(path, title);
+        }
+    }
+    
+    
     public static String getRunId() {
         return RUN_ID;
     }
