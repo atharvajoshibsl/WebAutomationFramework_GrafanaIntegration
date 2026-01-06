@@ -75,7 +75,8 @@ public class ExtentReportListener_New implements ITestListener {
                     DriverManager.getDriver(),
                     testName + "_Failed"
             );
-            test.addScreenCaptureFromPath(screenshotPath);
+//            test.addScreenCaptureFromPath(screenshotPath);
+            ExtentManager.attachScreenshot(screenshotPath, testName+" Failed at this point");
 
         } catch (IOException e) {
             System.err.println("Screenshot capture failed: " + e.getMessage());
