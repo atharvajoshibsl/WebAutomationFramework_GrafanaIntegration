@@ -11,26 +11,38 @@ import org.openqa.selenium.io.FileHandler;
 
 public class TakeScreenshot {
 
-	public static String capture(WebDriver driver, String fileName) throws IOException
-	{
-		File folder= new File(System.getProperty("user.dir")+"/Reports/"+ExtentManager.getRunId()+"/screenshots");
-		if(!folder.exists())
-		{
-			folder.mkdir();
-		}
-		
-		String timestamp = Instant.now().toString().replaceAll("[:.T-]", "_");
+    public static String capture(WebDriver driver, String fileName) throws IOException {
 
-		
-		String file =  fileName + "_" + timestamp + ".png";
-//		String fullPath = folder + "/" + fileName + "_" + timestamp + ".png";
-		File src= ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-		
-		File dest=new File(folder, file);
-		
-		
-		FileHandler.copy(src, dest);
-		
-		return "screenshots/"+ file;
-	}
+        if (driver == null) {
+            throw new IllegalArgumentException("WebDriver is null. Cannot capture screenshot.");
+        }
+
+        // screenshots folder under current RUN_ID
+        File folder = new File(
+                System.getProperty("user.dir")
+                + "/Reports/"
+                + ExtentManager.getRunId()
+                + "/screenshots"
+        );
+
+        // create directories if not present
+        if (!folder.exists()) {
+            folder.mkdirs();   // mkdirs is safer than mkdir
+        }
+
+        // UTC timestamp (Grafana & CI friendly)
+        String timestamp = Instant.now()
+                .toString()
+                .replaceAll("[:.T-]", "_");
+
+        String fileNameWithTime = fileName + "_" + timestamp + ".png";
+
+        File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        File dest = new File(folder, fileNameWithTime);
+
+        FileHandler.copy(src, dest);
+
+        // return RELATIVE path (important for Extent + Jenkins)
+        return "screenshots/" + fileNameWithTime;
+    }
 }

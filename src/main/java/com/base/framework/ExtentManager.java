@@ -1,5 +1,6 @@
 package com.base.framework;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -9,25 +10,41 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 public class ExtentManager {
 
-    public static String RUN_ID;                 // <---- ADD THIS (public)
+    // Public so DB / Screenshot / Grafana can reuse it
+    public static String RUN_ID;
+
     private static String reportFolderPath;
-    private static String reportFilePath;    
-    
+    private static String reportFilePath;
+
     private static ExtentReports extent;
     private static ThreadLocal<ExtentTest> test = new ThreadLocal<>();
 
-    // Create and configure ExtentReports (only once)
+    // Create and configure ExtentReports (only once per run)
     public synchronized static ExtentReports getExtentReports() {
+
         if (extent == null) {
-        	
-            // ----- CREATE PUBLIC RUN_ID -----
-            RUN_ID = "Run_" + DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss").format(LocalDateTime.now());
 
-            // ----- CREATE REPORT FOLDER -----
-            reportFolderPath = System.getProperty("user.dir")+ "/Reports/"+ RUN_ID;        	
-            
-            reportFilePath = reportFolderPath + "/ExtentReport.html";
+            // 1️⃣ Generate RUN_ID
+            RUN_ID = "Run_" + DateTimeFormatter
+                    .ofPattern("yyyyMMdd_HHmmss")
+                    .format(LocalDateTime.now());
 
+            // 2️⃣ Create report folder inside workspace
+            reportFolderPath =
+                    System.getProperty("user.dir")
+                    + File.separator
+                    + "Reports"
+                    + File.separator
+                    + RUN_ID;
+
+            // Create folders
+            new File(reportFolderPath).mkdirs();
+            new File(reportFolderPath + File.separator + "screenshots").mkdirs();
+
+            // 3️⃣ Report file path
+            reportFilePath = reportFolderPath + File.separator + "ExtentReport.html";
+
+            // 4️⃣ Configure Extent
             ExtentSparkReporter spark = new ExtentSparkReporter(reportFilePath);
             spark.config().setReportName("Automation Test Results");
             spark.config().setDocumentTitle("Test Execution Report");
@@ -36,29 +53,29 @@ public class ExtentManager {
             extent.attachReporter(spark);
 
             extent.setSystemInfo("Project", "Web Automation");
-            extent.setSystemInfo("Tester", "Atharva");
+            extent.setSystemInfo("Tester", System.getProperty("user.name"));
+            extent.setSystemInfo("RunId", RUN_ID);
         }
+
         return extent;
     }
-    
-    public static void attachScreenshot(String path, String title) {
-        if (getTest() != null && path != null) {
-            getTest().addScreenCaptureFromPath(path, title);
+
+    // Attach screenshot to current test
+    public static void attachScreenshot(String relativePath, String title) {
+        if (getTest() != null && relativePath != null) {
+            getTest().addScreenCaptureFromPath(relativePath, title);
         }
     }
-    
-    
+
+    // Used by DB & Grafana (artifact-friendly path)
+    public static String getReportPath() {
+        return "Reports/" + RUN_ID + "/ExtentReport.html";
+    }
+
     public static String getRunId() {
         return RUN_ID;
     }
-    
-    public static String getReportPath()
-    {
-//    	proxy python http server
-    	String extentUrl = "http://localhost:8081/Reports/"+ RUN_ID +"/ExtentReport.html";    	
-    	return extentUrl;
-    }
-    
+
     public static void setTest(ExtentTest extentTest) {
         test.set(extentTest);
     }

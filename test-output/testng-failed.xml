@@ -3,13 +3,13 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.base.tests.DashboardValidationTest">
+      <class name="com.base.tests.LoginTest">
         <methods>
           <include name="setUpMethod"/>
-          <include name="dashboardLoadedTest"/>
           <include name="tearDownMethod"/>
+          <include name="logintest"/>
         </methods>
-      </class> <!-- com.base.tests.DashboardValidationTest -->
+      </class> <!-- com.base.tests.LoginTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
