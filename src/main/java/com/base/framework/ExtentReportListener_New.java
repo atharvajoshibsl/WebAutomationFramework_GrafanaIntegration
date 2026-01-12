@@ -1,6 +1,7 @@
 package com.base.framework;
 
 import java.io.IOException;
+
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -9,22 +10,21 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
 /**
- * Clean, simplified ExtentReportListener.
+ * ExtentReportListener
  * - Creates Extent test logs
  * - Attaches screenshots on failure
- * - Inserts PASS / FAIL / SKIP results into MySQL using DbManager
+ * - Inserts PASS / FAIL / SKIP results into MySQL
+ * - CI/Jenkins safe (NO localhost / NO python server)
  */
 public class ExtentReportListener_New implements ITestListener {
 
+    // Extent is initialized ONCE per run
     private static final ExtentReports extent = ExtentManager.getExtentReports();
-    String RUN_ID = ExtentManager.getRunId();
-    
-    String extentPath=ExtentManager.getReportPath();
-
 
     @Override
     public void onStart(ITestContext context) {
         System.out.println("Suite Started: " + context.getName());
+        System.out.println("RUN_ID: " + ExtentManager.getRunId());
     }
 
     @Override
@@ -35,6 +35,7 @@ public class ExtentReportListener_New implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult result) {
+
         String testName = result.getMethod().getMethodName();
         System.out.println(testName + ": Test Started");
 
@@ -44,24 +45,18 @@ public class ExtentReportListener_New implements ITestListener {
 
     @Override
     public void onTestSuccess(ITestResult result) {
+
         String testName = result.getMethod().getMethodName();
         System.out.println(testName + ": Test Passed");
 
         ExtentManager.getTest().pass("Test passed");
 
-        long duration = getDuration(result);
-        String browser = ConfigReader.get("browser");
-        String executedBy = System.getProperty("user.name");
-
-        DbManager.insertTestResult(
-                RUN_ID, testName, "PASS",
-                browser, duration,
-                null, null, executedBy, extentPath
-        );
+        insertResult(result, "PASS", null, null);
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
+
         String testName = result.getMethod().getMethodName();
         System.out.println(testName + ": Test Failed");
 
@@ -75,42 +70,55 @@ public class ExtentReportListener_New implements ITestListener {
                     DriverManager.getDriver(),
                     testName + "_Failed"
             );
-//            test.addScreenCaptureFromPath(screenshotPath);
-            ExtentManager.attachScreenshot(screenshotPath, testName+" Failed at this point");
+
+            ExtentManager.attachScreenshot(
+                    screenshotPath,
+                    testName + " - Failure Screenshot"
+            );
 
         } catch (IOException e) {
             System.err.println("Screenshot capture failed: " + e.getMessage());
         }
 
-        long duration = getDuration(result);
-        String browser = ConfigReader.get("browser");
-        String executedBy = System.getProperty("user.name");
-        String errorMessage = (result.getThrowable() != null)
+        String errorMessage = result.getThrowable() != null
                 ? result.getThrowable().toString()
                 : null;
 
-        DbManager.insertTestResult(
-                RUN_ID, testName, "FAIL",
-                browser, duration,
-                screenshotPath, errorMessage, executedBy, extentPath
-        );
+        insertResult(result, "FAIL", screenshotPath, errorMessage);
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
+
         String testName = result.getMethod().getMethodName();
         System.out.println(testName + ": Test Skipped");
 
         ExtentManager.getTest().skip("Test skipped");
 
+        insertResult(result, "SKIP", null, null);
+    }
+
+    // ----------------- COMMON DB INSERT -----------------
+
+    private void insertResult(ITestResult result,
+                              String status,
+                              String screenshotPath,
+                              String errorMessage) {
+
         long duration = getDuration(result);
         String browser = ConfigReader.get("browser");
         String executedBy = System.getProperty("user.name");
 
         DbManager.insertTestResult(
-                RUN_ID, testName, "SKIP",
-                browser, duration,
-                null, null, executedBy, extentPath
+                ExtentManager.getRunId(),
+                result.getMethod().getMethodName(),
+                status,
+                browser,
+                duration,
+                screenshotPath,
+                errorMessage,
+                executedBy,
+                ExtentManager.getReportPath()
         );
     }
 
