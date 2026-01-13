@@ -109,11 +109,9 @@ public class ExtentManager {
         return classTest.get();
     }
     
-    public static ExtentTest getOrCreateClassNode(String className) {
-        ExtentTest suite = getSuiteTest();
-
+    public static ExtentTest getOrCreateClassNode(ExtentReports extent, String className) {
         if (!classNodeMap.containsKey(className)) {
-            ExtentTest classNode = suite.createNode(className);
+            ExtentTest classNode = extent.createTest(className);
             classNodeMap.put(className, classNode);
         }
         return classNodeMap.get(className);

@@ -24,9 +24,7 @@ public class ExtentReportListener_New implements ITestListener {
     @Override
     public void onStart(ITestContext context) {
         System.out.println("Suite Started: " + context.getName());
-        System.out.println("RUN_ID: " + ExtentManager.getRunId());
-        ExtentTest suite = extent.createTest(context.getSuite().getName());
-        ExtentManager.setSuiteTest(suite);       
+        System.out.println("RUN_ID: " + ExtentManager.getRunId());     
     }
 
     @Override
@@ -53,7 +51,7 @@ public class ExtentReportListener_New implements ITestListener {
 
 //        ExtentTest suiteNode = ExtentManager.getSuiteTest();
 
-        ExtentTest classNode = ExtentManager.getOrCreateClassNode(className);
+        ExtentTest classNode = ExtentManager.getOrCreateClassNode(ExtentManager.getExtentReports(), className);
         ExtentManager.setClassTest(classNode);
 
         ExtentTest methodNode = classNode.createNode(methodName);
