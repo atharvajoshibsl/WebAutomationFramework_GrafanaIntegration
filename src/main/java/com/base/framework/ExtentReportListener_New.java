@@ -51,9 +51,9 @@ public class ExtentReportListener_New implements ITestListener {
         String className = result.getTestClass().getRealClass().getSimpleName();
         String methodName = result.getMethod().getMethodName();
 
-        ExtentTest suiteNode = ExtentManager.getSuiteTest();
+//        ExtentTest suiteNode = ExtentManager.getSuiteTest();
 
-        ExtentTest classNode = suiteNode.createNode(className);
+        ExtentTest classNode = ExtentManager.getOrCreateClassNode(className);
         ExtentManager.setClassTest(classNode);
 
         ExtentTest methodNode = classNode.createNode(methodName);
