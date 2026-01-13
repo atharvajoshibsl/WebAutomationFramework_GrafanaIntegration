@@ -32,7 +32,7 @@ public class ExtentManager {
             String buildNo = getBuildNumber();
 
             // 2️⃣ Create report folder inside workspace
-            reportFolderPath = System.getProperty("user.dir")+ "/Reports/build_" + buildNo + "/" + RUN_ID;
+            reportFolderPath = System.getProperty("user.dir")+ "/Reports/" + buildNo + "/" + RUN_ID;
 
             // Create folders
             new File(reportFolderPath).mkdirs();
