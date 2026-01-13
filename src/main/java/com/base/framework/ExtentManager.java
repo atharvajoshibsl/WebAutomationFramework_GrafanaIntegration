@@ -18,6 +18,9 @@ public class ExtentManager {
 
     private static ExtentReports extent;
     private static ThreadLocal<ExtentTest> test = new ThreadLocal<>();
+    private static ThreadLocal<ExtentTest> suiteTest = new ThreadLocal<>();
+    private static ThreadLocal<ExtentTest> classTest = new ThreadLocal<>();
+
 
     // Create and configure ExtentReports (only once per run)
     public synchronized static ExtentReports getExtentReports() {
@@ -29,7 +32,6 @@ public class ExtentManager {
                     .ofPattern("yyyyMMdd_HHmmss")
                     .format(LocalDateTime.now());
             
-            String buildNo = getBuildNumber();
 
             // 2️⃣ Create report folder inside workspace
             reportFolderPath = System.getProperty("user.dir")+ "/Reports/" + RUN_ID;
@@ -86,4 +88,22 @@ public class ExtentManager {
     public static ExtentTest getTest() {
         return test.get();
     }
+    
+ // Getters and setter method for Suite creation for Suite Report
+    public static void setSuiteTest(ExtentTest test) {
+        suiteTest.set(test);
+    }
+
+    public static ExtentTest getSuiteTest() {
+        return suiteTest.get();
+    }
+
+    public static void setClassTest(ExtentTest test) {
+        classTest.set(test);
+    }
+
+    public static ExtentTest getClassTest() {
+        return classTest.get();
+    }
+    
 }
