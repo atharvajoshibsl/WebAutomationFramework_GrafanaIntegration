@@ -3,6 +3,8 @@ package com.base.framework;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
@@ -20,6 +22,7 @@ public class ExtentManager {
     private static ThreadLocal<ExtentTest> test = new ThreadLocal<>();
     private static ThreadLocal<ExtentTest> suiteTest = new ThreadLocal<>();
     private static ThreadLocal<ExtentTest> classTest = new ThreadLocal<>();
+    private static Map<String, ExtentTest> classNodeMap = new ConcurrentHashMap<>();    
 
 
     // Create and configure ExtentReports (only once per run)
@@ -105,5 +108,16 @@ public class ExtentManager {
     public static ExtentTest getClassTest() {
         return classTest.get();
     }
+    
+    public static ExtentTest getOrCreateClassNode(String className) {
+        ExtentTest suite = getSuiteTest();
+
+        if (!classNodeMap.containsKey(className)) {
+            ExtentTest classNode = suite.createNode(className);
+            classNodeMap.put(className, classNode);
+        }
+        return classNodeMap.get(className);
+    }
+    
     
 }
