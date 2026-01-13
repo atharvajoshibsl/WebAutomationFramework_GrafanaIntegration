@@ -28,21 +28,18 @@ public class ExtentManager {
             RUN_ID = "Run_" + DateTimeFormatter
                     .ofPattern("yyyyMMdd_HHmmss")
                     .format(LocalDateTime.now());
+            
+            String buildNo = getBuildNumber();
 
             // 2️⃣ Create report folder inside workspace
-            reportFolderPath =
-                    System.getProperty("user.dir")
-                    + File.separator
-                    + "Reports"
-                    + File.separator
-                    + RUN_ID;
+            reportFolderPath = System.getProperty("user.dir")+ "/Reports/build_" + buildNo + "/" + RUN_ID;
 
             // Create folders
             new File(reportFolderPath).mkdirs();
             new File(reportFolderPath + File.separator + "screenshots").mkdirs();
 
             // 3️⃣ Report file path
-            reportFilePath = reportFolderPath + File.separator + "ExtentReport.html";
+            reportFilePath = reportFolderPath + "/ExtentReport.html";
 
             // 4️⃣ Configure Extent
             ExtentSparkReporter spark = new ExtentSparkReporter(reportFilePath);
@@ -69,13 +66,19 @@ public class ExtentManager {
 
     // Used by DB & Grafana (artifact-friendly path)
     public static String getReportPath() {
-        return "Reports/" + RUN_ID + "/ExtentReport.html";
+    	String buildNo= getBuildNumber();
+        return "job/WebAutomation_Framework/"+ buildNo + "/artifact/Reports/" + RUN_ID + "/ExtentReport.html";
     }
 
     public static String getRunId() {
         return RUN_ID;
     }
 
+    public static String getBuildNumber() {
+        String build = System.getenv("BUILD_NUMBER");
+        return (build != null) ? build : "LOCAL";
+    }    
+    
     public static void setTest(ExtentTest extentTest) {
         test.set(extentTest);
     }
