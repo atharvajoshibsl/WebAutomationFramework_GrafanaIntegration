@@ -2,16 +2,16 @@
 <testng-results retried="1" ignored="0" total="2" passed="0" failed="1" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2026-01-13T22:43:18 IST" name="Default suite" finished-at="2026-01-13T22:43:53 IST" duration-ms="34978">
+  <suite started-at="2026-01-15T21:55:26 IST" name="Default suite" finished-at="2026-01-15T21:55:44 IST" duration-ms="18411">
     <groups>
     </groups>
-    <test started-at="2026-01-13T22:43:18 IST" name="Default test" finished-at="2026-01-13T22:43:53 IST" duration-ms="34978">
+    <test started-at="2026-01-15T21:55:26 IST" name="Default test" finished-at="2026-01-15T21:55:44 IST" duration-ms="18411">
       <class name="com.base.tests.LoginTest">
-        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.base.tests.LoginTest@40a4337a]" started-at="2026-01-13T22:43:18 IST" name="setUpMethod" finished-at="2026-01-13T22:43:25 IST" duration-ms="7050" status="PASS">
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.base.tests.LoginTest@40a4337a]" started-at="2026-01-15T21:55:26 IST" name="setUpMethod" finished-at="2026-01-15T21:55:32 IST" duration-ms="6625" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUpMethod -->
-        <test-method retried="true" signature="logintest()[pri:0, instance:com.base.tests.LoginTest@40a4337a]" started-at="2026-01-13T22:43:25 IST" name="logintest" finished-at="2026-01-13T22:43:27 IST" duration-ms="2282" status="SKIP">
+        <test-method retried="true" signature="logintest()[pri:0, instance:com.base.tests.LoginTest@40a4337a]" started-at="2026-01-15T21:55:32 IST" name="logintest" finished-at="2026-01-15T21:55:35 IST" duration-ms="2310" status="SKIP">
           <exception class="org.openqa.selenium.NoSuchElementException">
             <message>
               <![CDATA[no such element: Unable to locate element: {"method":"xpath","selector":"//button[contains(.,'Logni')]"}
@@ -20,9 +20,9 @@ For documentation on this error, please visit: https://www.selenium.dev/document
 Build info: version: '4.38.0', revision: '6b412e825c*'
 System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [e3e03f5ca63aca21e527c3b528e7b726, findElement {using=xpath, value=//button[contains(.,'Logni')]}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 143.0.7499.193, chrome: {chromedriverVersion: 143.0.7499.192 (be2c1f4fd45..., userDataDir: C:\Users\Atharva\AppData\Lo...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:57031}, goog:processID: 22816, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:57031/devtoo..., se:cdpVersion: 143.0.7499.193, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: e3e03f5ca63aca21e527c3b528e7b726]]>
+Command: [ece28cf7b98f20ef7d070ab592e40e7f, findElement {value=//button[contains(.,'Logni')], using=xpath}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 143.0.7499.193, chrome: {chromedriverVersion: 143.0.7499.192 (be2c1f4fd45..., userDataDir: C:\Users\Atharva\AppData\Lo...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:62192}, goog:processID: 24920, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:62192/devtoo..., se:cdpVersion: 143.0.7499.193, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: ece28cf7b98f20ef7d070ab592e40e7f]]>
             </message>
             <full-stacktrace>
               <![CDATA[org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//button[contains(.,'Logni')]"}
@@ -31,9 +31,9 @@ For documentation on this error, please visit: https://www.selenium.dev/document
 Build info: version: '4.38.0', revision: '6b412e825c*'
 System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [e3e03f5ca63aca21e527c3b528e7b726, findElement {using=xpath, value=//button[contains(.,'Logni')]}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 143.0.7499.193, chrome: {chromedriverVersion: 143.0.7499.192 (be2c1f4fd45..., userDataDir: C:\Users\Atharva\AppData\Lo...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:57031}, goog:processID: 22816, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:57031/devtoo..., se:cdpVersion: 143.0.7499.193, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: e3e03f5ca63aca21e527c3b528e7b726
+Command: [ece28cf7b98f20ef7d070ab592e40e7f, findElement {value=//button[contains(.,'Logni')], using=xpath}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 143.0.7499.193, chrome: {chromedriverVersion: 143.0.7499.192 (be2c1f4fd45..., userDataDir: C:\Users\Atharva\AppData\Lo...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:62192}, goog:processID: 24920, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:62192/devtoo..., se:cdpVersion: 143.0.7499.193, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: ece28cf7b98f20ef7d070ab592e40e7f
 at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
 at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
 at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
@@ -81,15 +81,15 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
           <reporter-output>
           </reporter-output>
         </test-method> <!-- logintest -->
-        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.base.tests.LoginTest@40a4337a]" started-at="2026-01-13T22:43:27 IST" name="tearDownMethod" finished-at="2026-01-13T22:43:28 IST" duration-ms="357" status="PASS">
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.base.tests.LoginTest@40a4337a]" started-at="2026-01-15T21:55:35 IST" name="tearDownMethod" finished-at="2026-01-15T21:55:36 IST" duration-ms="448" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDownMethod -->
-        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.base.tests.LoginTest@40a4337a]" started-at="2026-01-13T22:43:28 IST" name="setUpMethod" finished-at="2026-01-13T22:43:50 IST" duration-ms="22187" status="PASS">
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.base.tests.LoginTest@40a4337a]" started-at="2026-01-15T21:55:36 IST" name="setUpMethod" finished-at="2026-01-15T21:55:41 IST" duration-ms="5537" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUpMethod -->
-        <test-method signature="logintest()[pri:0, instance:com.base.tests.LoginTest@40a4337a]" started-at="2026-01-13T22:43:50 IST" name="logintest" finished-at="2026-01-13T22:43:52 IST" duration-ms="2241" status="FAIL">
+        <test-method signature="logintest()[pri:0, instance:com.base.tests.LoginTest@40a4337a]" started-at="2026-01-15T21:55:41 IST" name="logintest" finished-at="2026-01-15T21:55:43 IST" duration-ms="2327" status="FAIL">
           <exception class="org.openqa.selenium.NoSuchElementException">
             <message>
               <![CDATA[no such element: Unable to locate element: {"method":"xpath","selector":"//button[contains(.,'Logni')]"}
@@ -98,9 +98,9 @@ For documentation on this error, please visit: https://www.selenium.dev/document
 Build info: version: '4.38.0', revision: '6b412e825c*'
 System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [38082b29475c0fb81921ba2674cc675a, findElement {using=xpath, value=//button[contains(.,'Logni')]}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 143.0.7499.193, chrome: {chromedriverVersion: 143.0.7499.192 (be2c1f4fd45..., userDataDir: C:\Users\Atharva\AppData\Lo...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:52375}, goog:processID: 31172, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:52375/devtoo..., se:cdpVersion: 143.0.7499.193, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: 38082b29475c0fb81921ba2674cc675a]]>
+Command: [9c81770b26ee662996ba5c433c6bbaa8, findElement {value=//button[contains(.,'Logni')], using=xpath}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 143.0.7499.193, chrome: {chromedriverVersion: 143.0.7499.192 (be2c1f4fd45..., userDataDir: C:\Users\Atharva\AppData\Lo...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:53892}, goog:processID: 672, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:53892/devtoo..., se:cdpVersion: 143.0.7499.193, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 9c81770b26ee662996ba5c433c6bbaa8]]>
             </message>
             <full-stacktrace>
               <![CDATA[org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//button[contains(.,'Logni')]"}
@@ -109,9 +109,9 @@ For documentation on this error, please visit: https://www.selenium.dev/document
 Build info: version: '4.38.0', revision: '6b412e825c*'
 System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [38082b29475c0fb81921ba2674cc675a, findElement {using=xpath, value=//button[contains(.,'Logni')]}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 143.0.7499.193, chrome: {chromedriverVersion: 143.0.7499.192 (be2c1f4fd45..., userDataDir: C:\Users\Atharva\AppData\Lo...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:52375}, goog:processID: 31172, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:52375/devtoo..., se:cdpVersion: 143.0.7499.193, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: 38082b29475c0fb81921ba2674cc675a
+Command: [9c81770b26ee662996ba5c433c6bbaa8, findElement {value=//button[contains(.,'Logni')], using=xpath}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 143.0.7499.193, chrome: {chromedriverVersion: 143.0.7499.192 (be2c1f4fd45..., userDataDir: C:\Users\Atharva\AppData\Lo...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:53892}, goog:processID: 672, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:53892/devtoo..., se:cdpVersion: 143.0.7499.193, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 9c81770b26ee662996ba5c433c6bbaa8
 at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
 at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
 at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
@@ -159,7 +159,7 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
           <reporter-output>
           </reporter-output>
         </test-method> <!-- logintest -->
-        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.base.tests.LoginTest@40a4337a]" started-at="2026-01-13T22:43:52 IST" name="tearDownMethod" finished-at="2026-01-13T22:43:53 IST" duration-ms="291" status="PASS">
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.base.tests.LoginTest@40a4337a]" started-at="2026-01-15T21:55:44 IST" name="tearDownMethod" finished-at="2026-01-15T21:55:44 IST" duration-ms="339" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDownMethod -->
