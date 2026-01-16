@@ -5,116 +5,98 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.*;
+
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 public class ExtentManager {
 
+    public static String RUN_ID;
     private static ExtentReports extent;
-
-    private static String BUILD_ID;
-    private static String RUN_ID;
-
-    private static String reportDir;
-    private static String reportPath;
-
     private static ExtentTest suiteNode;
-    private static ConcurrentHashMap<String, ExtentTest> classNodeMap = new ConcurrentHashMap<>();
-    private static ThreadLocal<ExtentTest> testNode = new ThreadLocal<>();
 
-    // -------------------------------------------------------------
-    // 1) EXTENT REPORT INIT (CREATE FOLDER => BUILD_<JENKINS_BUILD>)
-    // -------------------------------------------------------------
+    private static final ThreadLocal<ExtentTest> testNode = new ThreadLocal<>();
+    private static final ConcurrentHashMap<String, ExtentTest> classNodeMap = new ConcurrentHashMap<>();
+
     public synchronized static ExtentReports getExtentReports() {
 
-        if (extent == null) {
+        if (extent != null) return extent;
 
-            // 1️⃣ Build number (Jenkins or LOCAL)
-            BUILD_ID = System.getenv("BUILD_NUMBER");
-            if (BUILD_ID == null) BUILD_ID = "LOCAL";
+        RUN_ID = "Run_" + DateTimeFormatter
+                .ofPattern("yyyyMMdd_HHmmss")
+                .format(LocalDateTime.now());
 
-            // 2️⃣ Run ID (timestamp)
-            RUN_ID = "Run_" + DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")
-                    .format(LocalDateTime.now());
+        String build = System.getenv("BUILD_NUMBER");
+        if (build == null) build = "LOCAL";
 
-            // 3️⃣ FINAL folder: Reports/build_<BUILD>/Run_<RUNID>
-            reportDir = System.getProperty("user.dir")
-                    + File.separator + "Reports"
-                    + File.separator + "build_" + BUILD_ID
-                    + File.separator + RUN_ID;
+        String baseDir = System.getProperty("user.dir")
+                + File.separator + "Reports"
+                + File.separator + "build_" + build;
 
-            new File(reportDir).mkdirs();
-            new File(reportDir + "/screenshots").mkdirs();
+        String runDir = baseDir + File.separator + RUN_ID;
+        String latestDir = baseDir + File.separator + "latest";
 
-            // 4️⃣ Full HTML report path
-            reportPath = reportDir + "/ExtentReport.html";
+        new File(runDir + "/screenshots").mkdirs();
+        new File(latestDir + "/screenshots").mkdirs();
 
-            ExtentSparkReporter spark = new ExtentSparkReporter(reportPath);
-            spark.config().setReportName("Automation Test Results");
-            spark.config().setDocumentTitle("Test Execution Report");
+        String runReport = runDir + "/ExtentReport.html";
+        String latestReport = latestDir + "/ExtentReport.html";
 
-            extent = new ExtentReports();
-            extent.attachReporter(spark);
+        ExtentSparkReporter spark = new ExtentSparkReporter(runReport);
+        spark.config().setReportName("Automation Test Results");
+        spark.config().setDocumentTitle("Test Execution Report");
 
-            extent.setSystemInfo("Project", "Web Automation");
-            extent.setSystemInfo("Build", BUILD_ID);
-            extent.setSystemInfo("Run", RUN_ID);
-            extent.setSystemInfo("Executed By", System.getProperty("user.name"));
-        }
+        extent = new ExtentReports();
+        extent.attachReporter(spark);
+
+        extent.setSystemInfo("Build", build);
+        extent.setSystemInfo("RunId", RUN_ID);
+        extent.setSystemInfo("User", System.getProperty("user.name"));
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                org.apache.commons.io.FileUtils.copyFile(
+                        new File(runReport),
+                        new File(latestReport)
+                );
+            } catch (Exception ignored) {}
+        }));
 
         return extent;
     }
 
-    // -------------------------------------------------------------
-    // SUITE NODE
-    // -------------------------------------------------------------
-    public static void createSuiteNode(String suiteName) {
-        suiteNode = extent.createTest(suiteName);
+    public static void createSuite(String name) {
+        suiteNode = extent.createTest(name);
     }
 
-    public static ExtentTest getSuiteNode() {
-        return suiteNode;
+    public static ExtentTest getOrCreateClassNode(String className) {
+        return classNodeMap.computeIfAbsent(className,
+                c -> suiteNode.createNode(c));
     }
 
-    // -------------------------------------------------------------
-    // CLASS NODE
-    // -------------------------------------------------------------
-    public static synchronized ExtentTest getOrCreateClassNode(String className) {
-        return classNodeMap.computeIfAbsent(
-                className,
-                n -> suiteNode.createNode(className)
-        );
+    public static void setTest(ExtentTest test) {
+        testNode.set(test);
     }
 
-    // -------------------------------------------------------------
-    // TEST NODE
-    // -------------------------------------------------------------
-    public static void setTestNode(ExtentTest node) {
-        testNode.set(node);
-    }
-
-    public static ExtentTest getTestNode() {
+    public static ExtentTest getTest() {
         return testNode.get();
     }
 
-    // -------------------------------------------------------------
-    // SCREENSHOTS
-    // -------------------------------------------------------------
-    public static void attachScreenshot(String relativePath, String title) {
-        ExtentTest test = getTestNode();
-        if (test != null && relativePath != null) {
-            test.addScreenCaptureFromPath(relativePath, title);
+    public static void attachScreenshot(String path, String title) {
+        if (getTest() != null && path != null) {
+            getTest().addScreenCaptureFromPath(path, title);
         }
     }
 
-    // -------------------------------------------------------------
-    // FINAL REPORT PATH FOR DB / GRAFANA
-    // -------------------------------------------------------------
-    public static String getReportLink() {
-        return "job/WebAutomation_Framework/" + BUILD_ID
-                + "/artifact/Reports/build_" + BUILD_ID
-                + "/" + RUN_ID + "/ExtentReport.html";
+    public static String getReportPath() {
+        String build = System.getenv("BUILD_NUMBER");
+        if (build == null) build = "LOCAL";
+
+        return "job/WebAutomation_Framework/"
+                + build
+                + "/artifact/Reports/build_"
+                + build
+                + "/latest/ExtentReport.html";
     }
 
     public static String getRunId() {

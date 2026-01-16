@@ -16,7 +16,7 @@ public class ExtentReportListener_New implements ITestListener {
     @Override
     public void onStart(ITestContext context) {
         ExtentManager.getExtentReports();
-        ExtentManager.createSuiteNode(context.getSuite().getName());
+        ExtentManager.createSuite(context.getSuite().getName());
     }
 
     @Override
@@ -33,19 +33,19 @@ public class ExtentReportListener_New implements ITestListener {
         ExtentTest classNode = ExtentManager.getOrCreateClassNode(className);
         ExtentTest methodNode = classNode.createNode(methodName);
 
-        ExtentManager.setTestNode(methodNode);
+        ExtentManager.setTest(methodNode);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        ExtentManager.getTestNode().pass("Test passed");
+        ExtentManager.getTest().pass("Test passed");
         insert(result, "PASS", null, null);
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
 
-        ExtentManager.getTestNode().fail(result.getThrowable());
+        ExtentManager.getTest().fail(result.getThrowable());
 
         String screenshot = null;
         try {
@@ -65,7 +65,7 @@ public class ExtentReportListener_New implements ITestListener {
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        ExtentManager.getTestNode().skip("Test skipped");
+        ExtentManager.getTest().skip("Test skipped");
         insert(result, "SKIP", null, null);
     }
 
@@ -83,7 +83,7 @@ public class ExtentReportListener_New implements ITestListener {
                 screenshot,
                 error,
                 System.getProperty("user.name"),
-                ExtentManager.getReportLink()
+                ExtentManager.getReportPath()
         );
     }
 }
