@@ -31,20 +31,20 @@ public class ExtentReportListener implements ITestListener {
 
         String testName = result.getMethod().getMethodName();
         ExtentTest test = extent.createTest(testName);
-        ExtentManager.setTest(test);
+        ExtentManager.setTestNode(test);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
         System.out.println(result.getName() + ": Test Passed");
-        ExtentManager.getTest().pass("Test passed");
+        ExtentManager.getTestNode().pass("Test passed");
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
         System.out.println(result.getName() + ": Test Failed");
 
-        ExtentTest test = ExtentManager.getTest();
+        ExtentTest test = ExtentManager.getTestNode();
         test.fail(result.getThrowable());   // log exception
 
         try {
@@ -62,6 +62,6 @@ public class ExtentReportListener implements ITestListener {
     @Override
     public void onTestSkipped(ITestResult result) {
         System.out.println(result.getName() + ": Test Skipped");
-        ExtentManager.getTest().skip("Test skipped");
+        ExtentManager.getTestNode().skip("Test skipped");
     }
 }

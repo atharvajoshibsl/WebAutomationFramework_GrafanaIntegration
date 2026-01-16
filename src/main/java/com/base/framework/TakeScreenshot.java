@@ -17,32 +17,40 @@ public class TakeScreenshot {
             throw new IllegalArgumentException("WebDriver is null. Cannot capture screenshot.");
         }
 
-        // screenshots folder under current RUN_ID
-        File folder = new File(
-                System.getProperty("user.dir")
-                + "/Reports/"
-                + ExtentManager.getRunId()
-                + "/screenshots"
-        );
-
-        // create directories if not present
-        if (!folder.exists()) {
-            folder.mkdirs();   // mkdirs is safer than mkdir
+        // Jenkins build number or LOCAL
+        String build = System.getenv("BUILD_NUMBER");
+        if (build == null) {
+            build = "LOCAL";
         }
 
-        // UTC timestamp (Grafana & CI friendly)
+        // FINAL screenshots folder (Jenkins-safe)
+        File folder = new File(
+                System.getProperty("user.dir")
+                + File.separator + "Reports"
+                + File.separator + "build_" + build
+                + File.separator + ExtentManager.getRunId()
+                + File.separator + "screenshots"
+        );
+
+        // Create directories safely
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+
+        // UTC timestamp (CI + Grafana friendly)
         String timestamp = Instant.now()
                 .toString()
                 .replaceAll("[:.T-]", "_");
 
-        String fileNameWithTime = fileName + "_" + timestamp + ".png";
+        String screenshotName = fileName + "_" + timestamp + ".png";
 
         File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        File dest = new File(folder, fileNameWithTime);
+        File dest = new File(folder, screenshotName);
 
         FileHandler.copy(src, dest);
 
-        // return RELATIVE path (important for Extent + Jenkins)
-        return "screenshots/" + fileNameWithTime;
+        // IMPORTANT: relative path from ExtentReport.html
+        return "screenshots/" + screenshotName;
+ 
     }
 }

@@ -15,8 +15,8 @@ public class ExtentReportListener_New implements ITestListener {
 
     @Override
     public void onStart(ITestContext context) {
-        System.out.println("Suite Started: " + context.getSuite().getName());
-        ExtentManager.createSuite(context.getSuite().getName());
+        ExtentManager.getExtentReports();
+        ExtentManager.createSuiteNode(context.getSuite().getName());
     }
 
     @Override
@@ -27,30 +27,25 @@ public class ExtentReportListener_New implements ITestListener {
     @Override
     public void onTestStart(ITestResult result) {
 
-        String className =
-                result.getTestClass().getRealClass().getSimpleName();
-        String methodName =
-                result.getMethod().getMethodName();
+        String className = result.getTestClass().getRealClass().getSimpleName();
+        String methodName = result.getMethod().getMethodName();
 
-        ExtentTest classNode =
-                ExtentManager.getOrCreateClassNode(className);
+        ExtentTest classNode = ExtentManager.getOrCreateClassNode(className);
+        ExtentTest methodNode = classNode.createNode(methodName);
 
-        ExtentTest methodNode =
-                classNode.createNode(methodName);
-
-        ExtentManager.setTest(methodNode);
+        ExtentManager.setTestNode(methodNode);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        ExtentManager.getTest().pass("Test passed");
+        ExtentManager.getTestNode().pass("Test passed");
         insert(result, "PASS", null, null);
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
 
-        ExtentManager.getTest().fail(result.getThrowable());
+        ExtentManager.getTestNode().fail(result.getThrowable());
 
         String screenshot = null;
         try {
@@ -70,7 +65,7 @@ public class ExtentReportListener_New implements ITestListener {
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        ExtentManager.getTest().skip("Test skipped");
+        ExtentManager.getTestNode().skip("Test skipped");
         insert(result, "SKIP", null, null);
     }
 
@@ -88,7 +83,7 @@ public class ExtentReportListener_New implements ITestListener {
                 screenshot,
                 error,
                 System.getProperty("user.name"),
-                ExtentManager.getReportPath()
+                ExtentManager.getReportLink()
         );
     }
 }
