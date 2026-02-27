@@ -4,7 +4,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 
-@Listeners(ExtentReportListener_New.class)
+@Listeners({
+    com.base.framework.ExtentReportListener_New.class,
+    com.base.framework.ScreenshotListener.class,
+})
 public class BaseTest {
 	
 	@BeforeMethod
