@@ -15,7 +15,6 @@ public class ExtentReportListener_New implements ITestListener {
 
     @Override
     public void onStart(ITestContext context) {
-        ExtentManager.getExtentReports();
         ExtentManager.createSuite(context.getSuite().getName());
     }
 
@@ -30,15 +29,24 @@ public class ExtentReportListener_New implements ITestListener {
         String className = result.getTestClass().getRealClass().getSimpleName();
         String methodName = result.getMethod().getMethodName();
 
+        // Create class node or return existing
         ExtentTest classNode = ExtentManager.getOrCreateClassNode(className);
+
+        // Create method node
         ExtentTest methodNode = classNode.createNode(methodName);
 
+        // Set current test node in ThreadLocal
         ExtentManager.setTest(methodNode);
+
+        // ⭐ VERY IMPORTANT: Log test start
+        methodNode.info("Starting test: " + methodName);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
+
         ExtentManager.getTest().pass("Test passed");
+
         insert(result, "PASS", null, null);
     }
 
@@ -51,21 +59,24 @@ public class ExtentReportListener_New implements ITestListener {
         try {
             screenshot = TakeScreenshot.capture(
                     DriverManager.getDriver(),
-                    result.getMethod().getMethodName());
-            ExtentManager.attachScreenshot(
-                    screenshot,
-                    "Failure Screenshot");
+                    result.getMethod().getMethodName()
+            );
+
+            // ⭐ Attach screenshot INSIDE test node
+            ExtentManager.getTest()
+                    .addScreenCaptureFromPath(screenshot, "Failure Screenshot");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        insert(result, "FAIL", screenshot,
-                result.getThrowable().toString());
+        insert(result, "FAIL", screenshot, result.getThrowable().toString());
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
         ExtentManager.getTest().skip("Test skipped");
+
         insert(result, "SKIP", null, null);
     }
 
