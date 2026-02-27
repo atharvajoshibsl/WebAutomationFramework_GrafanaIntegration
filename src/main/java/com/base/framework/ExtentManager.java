@@ -6,8 +6,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.aventstack.extentreports.*;
-
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.aventstack.extentreports.reporter.configuration.Theme;
+
+import org.apache.commons.io.FileUtils;
 
 public class ExtentManager {
 
@@ -42,9 +44,17 @@ public class ExtentManager {
         String runReport = runDir + "/ExtentReport.html";
         String latestReport = latestDir + "/ExtentReport.html";
 
+        // -------------------------------
+        // ⭐ SPARK REPORTER CONFIG
+        // -------------------------------
         ExtentSparkReporter spark = new ExtentSparkReporter(runReport);
-        spark.config().setReportName("Automation Test Results");
+        spark.config().setTheme(Theme.STANDARD);
         spark.config().setDocumentTitle("Test Execution Report");
+        spark.config().setReportName("Automation Test Results");
+
+        // ⭐ MOST IMPORTANT (ExtentReports 5.x)
+        // Generates spark/, media/, js/, css/
+        spark.config().setOfflineMode(true);
 
         extent = new ExtentReports();
         extent.attachReporter(spark);
@@ -53,12 +63,10 @@ public class ExtentManager {
         extent.setSystemInfo("RunId", RUN_ID);
         extent.setSystemInfo("User", System.getProperty("user.name"));
 
+        // ⭐ Copy everything (including spark folder) to latest/
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
-                org.apache.commons.io.FileUtils.copyFile(
-                        new File(runReport),
-                        new File(latestReport)
-                );
+                FileUtils.copyDirectory(new File(runDir), new File(latestDir));
             } catch (Exception ignored) {}
         }));
 
