@@ -133,8 +133,6 @@ The Grafana dashboard reads execution data directly from MySQL and provides real
 - 🔗 Direct Extent Report Links
 - 📜 Historical Test Runs
 
-![Grafana Dashboard](docs/images/2026-08-13_12-03-51.png)
-
 ---
 
 ## 📑 Extent Reports
@@ -151,15 +149,11 @@ The framework generates interactive Extent Reports after every execution.
 - Execution Duration
 - Test Categories
 
-![Extent Report](docs/images/2026-08-13_11-49-54.png)
-
 ---
 
 ## 🗄 MySQL Test Results
 
 Each execution is inserted into the database for reporting and dashboard visualization.
-
-![MySQL Test Results](docs/images/2026-08-13_12-16-10.png)
 
 ---
 
@@ -185,8 +179,6 @@ Reports/
 - Archived Reports
 - Artifact Publishing
 - Easy Report Sharing
-
-![Jenkins Artifacts](docs/images/2026-08-13_13-02-40.png)
 
 ---
 
@@ -286,6 +278,22 @@ flowchart LR
 - [ ] API Automation
 - [ ] Allure Reporting
 - [ ] Kubernetes Execution
+
+---
+
+## 🖼 Screenshots
+
+### Grafana Dashboard
+![Grafana Dashboard](docs/images/2026-08-13_12-03-51.png)
+
+### Extent Report
+![Extent Report](docs/images/2026-08-13_11-49-54.png)
+
+### MySQL Test Results
+![MySQL Test Results](docs/images/2026-08-13_12-16-10.png)
+
+### Jenkins Artifacts
+![Jenkins Artifacts](docs/images/2026-08-13_12-20-17.png)
 
 ---
 
